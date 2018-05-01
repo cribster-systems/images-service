@@ -44,16 +44,11 @@ app.get('/images/:location_id', (req, res) => {
           res.writeHead(404, {'Content-Type': 'text/plain'});
           res.end(err);
         } else {
-          request({
-            method: 'GET',
-            uri: `http://ec2-54-172-248-16.compute-1.amazonaws.com/booking/${locationId}`, // Fetch from Mo's server for location name
-          }, (err, booking_res, body) => {
-            let locationName = JSON.parse(body)['room_name'];
-            let result = {locationName: locationName, images: images};
-            client.setex(locationId, 120, JSON.stringify(result));
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify(result));
-          });
+          let locationName = 'Location';
+          let result = {locationName: locationName, images: images};
+          client.setex(locationId, 120, JSON.stringify(result));
+          res.writeHead(200, {'Content-Type': 'application/json'});
+          res.end(JSON.stringify(result));       
         }
       });
     }
