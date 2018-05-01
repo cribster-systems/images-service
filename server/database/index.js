@@ -4,14 +4,14 @@ const _ = require('lodash');
 const { MLAB_USERNAME, MLAB_PASSWORD } = process.env;
 console.log(process.env.NODE_ENV);
 
-mongoose.connect(`mongodb://${MLAB_USERNAME}:${MLAB_PASSWORD}@ds241039.mlab.com:41039/fantasybnb`);
+// mongoose.connect(`mongodb://${MLAB_USERNAME}:${MLAB_PASSWORD}@ds241039.mlab.com:41039/fantasybnb`);
+mongoose.connect('mongodb://localhost/images');
 
 let imageSchema = mongoose.Schema({
-  "location_id": Number,
-  "caption": String, 
-  "src": { type: String, required: true, unique: true},
-  
-}, {timestamps: true});
+  'location_id': Number,
+  'caption': String, 
+  'src': { type: String, required: true, unique: true},
+});
 
 let Image = mongoose.model('Image', imageSchema);
 
