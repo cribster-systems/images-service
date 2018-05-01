@@ -58,7 +58,7 @@ class ImageService extends React.Component {
   fetchNewImages(locationId) {
     let url = '';
     if (process.env.NODE_ENV === 'production') {
-      url = 'http://ec2-18-204-17-249.compute-1.amazonaws.com';
+      url = 'http://ec2-34-203-243-252.compute-1.amazonaws.com';
     } else if (process.env.NODE_ENV === 'development') {
       url = 'http://localhost:8080';
     } else {
@@ -164,7 +164,31 @@ class ImageService extends React.Component {
               </div>
             </div>
           : images.length === 0 
-              ? <div id="no-images" className={styles['background']}><h1>The owner has not posted any pictures of this place yet!</h1></div>
+              ? <div id="no-images" className={styles['background']}>
+                  <h1>The owner has not posted any pictures of this place yet!</h1>
+                  <div className={styles['buttons-top']}>
+                    <span style={{marginRight: '15px'}}>
+                      <button ref={shareButton => (this.share = shareButton)} 
+                        id="share-button" 
+                        className={styles['button']} 
+                        onClick={(e) => this.openModal(e)}
+                      >
+                        <div className={styles['icon-span']}>{share}</div>
+                        Share
+                      </button>
+                    </span>
+                    <span>
+                      <button ref={saveButton => (this.save = saveButton)} 
+                        id="save-button" 
+                        className={styles['button']} 
+                        onClick={(e) => this.openModal(e)}
+                      >
+                        <div className={styles['icon-span']}>{heart}</div>
+                        Save
+                      </button>
+                    </span>
+                  </div>
+                </div>
               : <div id="background" ref={background => (this.background = background)} 
                   className={styles['background']} 
                   style={{backgroundImage: `url("${imgUrl}")`, cursor: 'pointer'}} 
