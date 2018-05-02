@@ -6,6 +6,7 @@ console.log(process.env.NODE_ENV);
 
 // mongoose.connect(`mongodb://${MLAB_USERNAME}:${MLAB_PASSWORD}@ds241039.mlab.com:41039/fantasybnb`);
 mongoose.connect('mongodb://localhost/images');
+const db = mongoose.connection;
 
 let imageSchema = mongoose.Schema({
   'location_id': Number,
@@ -26,5 +27,8 @@ let get = function(locationId, cb) {
 };
 
 module.exports = {
+  db: db,
+  mongoose: mongoose,
+  Image: Image,
   get: get
 };
