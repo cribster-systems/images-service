@@ -9,7 +9,11 @@ mongoose.connect('mongodb://localhost/images');
 const db = mongoose.connection;
 
 let imageSchema = mongoose.Schema({
-  location_id: Number,
+  location_id: {
+    type: Number,
+    index: true,
+    unique: true
+  },
   caption: String, 
   src: Array
 });
