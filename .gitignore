@@ -32,3 +32,6 @@ DockerFile
 
 # Amazon credentials
 .aws
+
+# Seed file
+server/database/seed.csv

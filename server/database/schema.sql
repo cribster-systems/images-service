@@ -3,14 +3,15 @@ CREATE DATABASE images;
 
 \c images;
 
-CREATE TABLE locations (
+CREATE TABLE images (
   id SERIAL PRIMARY KEY,
   caption TEXT,
-  src TEXT
+  src TEXT,
+  listing_id INTEGER
 );
 
-INSERT INTO locations (id, caption, src)
-  VALUES (1, 'Lorem ipsum tho watup thot', 'www.google.com');
+-- INSERT INTO locations (id, caption, src)
+--   VALUES (1, 'Lorem ipsum tho watup thot', 'www.google.com');
 
 -- CREATE TABLE sources (
 --   id SERIAL PRIMARY KEY,
