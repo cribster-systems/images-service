@@ -28,17 +28,16 @@ process.env.NODE_ENV === 'production'
 
 app.get('/images/:location_id', (req, res) => {
   let locationId = req.params.location_id;
-  client.get(locationId, (err, result) => {
-    if (result) {
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(result);
-    } else {
+  // client.get(locationId, (err, result) => {
+  //   if (result) {
+  //     res.writeHead(200, {'Content-Type': 'application/json'});
+  //     res.end(result);
+  //   } else {
       db.get(locationId, (err, images) => {
         if (err) {
           res.writeHead(404, {'Content-Type': 'text/plain'});
           res.end(err);
         } else {
-          console.log(images);
           let locationName = 'Location';
           let result = {locationName: locationName, images: images};
           client.setex(locationId, 120, JSON.stringify(result));
@@ -46,9 +45,9 @@ app.get('/images/:location_id', (req, res) => {
           res.end(JSON.stringify(result));       
         }
       });
-    }
-  });
-});
+    });
+  // });
+// });
 
 app.listen(port, () => {
   console.log('Listening on port ' + port);
