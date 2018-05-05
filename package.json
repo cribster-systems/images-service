@@ -24,6 +24,7 @@
     "express": "^4.16.3",
     "faker": "^4.1.0",
     "grunt-webpack": "^3.1.1",
+    "loadtest": "^3.0.3",
     "lodash": "^4.17.5",
     "mongoose": "^5.0.14",
     "path": "^0.12.7",

@@ -44,7 +44,7 @@ class Carousel extends React.Component {
               <img 
                 id={`Image ${index}`}
                 className={styles['thumbnail']} 
-                src={image.src} 
+                src={image} 
                 style={{filter: index === curImageIndex ? 'brightness(100%)' : null}}
                 onClick={() => changeIndex(index)}
               />

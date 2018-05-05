@@ -39,7 +39,7 @@ class LightBox extends React.Component {
         <img 
           id="display-image"
           key={curImageIndex} 
-          src={curImage.src} 
+          src={curImage} 
           className={styles['display-image']} 
           align="middle" 
           onClick={() => changeIndex(++curImageIndex)}

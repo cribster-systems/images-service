@@ -69,10 +69,10 @@ class ImageService extends React.Component {
       .then((result) => {
         let { locationName, images } = result.data;
         let allImagesLoaded = images.length === 0; //If no images are returned, then there is no point in waiting for images to load
-    
+        console.log(result);
         this.setState({
-          locationName: locationName,
-          images: images,
+          locationName: 'placeholder',  // formerly locationName
+          images: images[0].src,        // formerly images
           didFetch: true,
           allImagesLoaded: allImagesLoaded
         })
@@ -148,7 +148,8 @@ class ImageService extends React.Component {
 
   render() {
     let {images, imageCount, allImagesLoaded, openModal, curImageIndex, modalChild} = this.state;
-    let imgUrl = images.length > 0 ? images[0].src : null;
+    // let imgUrl = images.length > 0 ? images[0].src : null;
+    let imgUrl = images.length > 0 ? images[0] : null;
     
     return (
       <div className={styles['main-image']}>
@@ -235,7 +236,7 @@ class ImageService extends React.Component {
         </Modal>
         <div style={{display: 'none'}}>
           {images.map((image, key) => 
-            <img key={`image-${key}`} src={image.src} onLoad={this.onImageLoad}/> // I want to show the images component to the screen only after all images loaded
+            <img key={`image-${key}`} src={image} onLoad={this.onImageLoad}/> // I want to show the images component to the screen only after all images loaded
           )}
         </div>
       </div>
