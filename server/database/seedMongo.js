@@ -1,4 +1,4 @@
-const { db, mongoose, Image } = require('./index.js');
+const { db, mongoose, Image, getNextSequenceValue, Counters } = require('./index.js');
 const faker = require('faker');
 const imgUrl = 'https://s3-us-west-1.amazonaws.com/images-service-images/pic'; //pic<1-270>.jpg';
 // Generates list of image urls for each listing
@@ -11,12 +11,16 @@ const randImageArray = () => {
   return arr;
 }
 
+async function createCounter() {
+  await Counters.create( {id: "location_id" , totalListings: 0 , listingsDeleted: 0 } );
+}
+
 // Please keep arms and legs inside the vehicle at all times...
-var count = 0;
+let count = 0;
 async function seeder() {
-  for (let i = 0; i < 1000; i += 1) {
+  for (let i = 0; i < 1; i += 1) {
     let batch = [];
-    for (let j = 0; j < 10000; j += 1) {
+    for (let j = 0; j < 10; j += 1) {
       let newEntry = {
         location_id: count,
         caption: faker.lorem.sentence(),
@@ -29,4 +33,5 @@ async function seeder() {
   }
 }
 
-seeder();
+createCounter();
+//seeder();

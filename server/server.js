@@ -1,6 +1,6 @@
 const cors         = require('cors');
 const path         = require('path');
-const redis        = require('redis');
+// const redis        = require('redis');
 const express      = require('express');
 const request      = require('request');
 const bodyParser   = require('body-parser');
@@ -8,19 +8,19 @@ const responseTime = require('response-time');
 const db           = require('./database/index.js');
 const port         = process.env.PORT || 8080;
 const host         = process.env.NODE_ENV === 'production' ? '172.17.0.2' : '127.0.0.1';
-const client       = redis.createClient('6379', host);
+// const client       = redis.createClient('6379', host);
 const app          = express();
 require('dotenv').config();
 app.use(cors());
 app.use(responseTime());
 
-client.on('error', function (err) {
-  console.log(err);
-});
+// client.on('error', function (err) {
+//   console.log(err);
+// });
 
-client.on('connect', function () {
-  console.log('Client is connected to redis server');
-});
+// client.on('connect', function () {
+//   console.log('Client is connected to redis server');
+// });
 
 process.env.NODE_ENV === 'production' 
   ? app.use('/:locationId', express.static(path.join(__dirname, '../public'))) 
