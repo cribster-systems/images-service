@@ -1,0 +1,14 @@
+config:
+  target: 'http://127.0.0.1:8080'
+  http: 
+    pool: 10
+  phases:
+    - duration: 40
+      arrivalRate: 500
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+scenarios:
+  - flow:
+    - get:
+        url: "/1"
