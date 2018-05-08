@@ -7,13 +7,11 @@ mongoose.connect('mongodb://localhost/images');
 const db = mongoose.connection;
 
 let counterSchema = mongoose.Schema({
-  id: String,              // location_id
-  totalListings: Number,    // Counter to hold total number of listings in db
-  listingsDeleted: Number   // Counter to hold total number of deleted listings
+  id: String, // 'location_id'
+  totalListings: Number,
+  listingsDeleted: Number
 });
 
-// Image documents will refer to the counter collection for their sequential loc_id
-// counter collection currently created in mongo shell 
 let imageSchema = mongoose.Schema({
   location_id: {
     type: Number,
@@ -37,22 +35,21 @@ const get = function(locationId, cb) {
     });
 };
 
-// When creating a new listing, get the latest location_id with this method.
-// This also updates the listing count whenever invoked await getNextSequenceValue("location_id");
-const getNextSequenceValue = (sequenceName) => {
-  let sequenceDocument = Counters.findOneAndUpdate({ id: sequenceName },{ $inc: { totalListings:1 } },{new: true},                         // returns newly udpated doc to db
+// Returns next lext listing ID and updates counter
+const getNextSequenceValue = () => {
+  let sequenceDocument = Counters.findOneAndUpdate({ id: 'location_id' },{ $inc: { totalListings:1 } },{new: true},
      (err, res) => {
       if(err) return console.log(err);
-      console.log('Total listings count incremented');
+      return res.totalListings;
      }
   );
-  console.log( sequenceDocument.numListing );
 };
 
-// This should be invoked when a batch was inserted in the db
-// Rather than updating every insert, let's update the total after the batch was inserted
+// *** Only to be used for seeding db atm *** When inserting a batch, update counter post-insertion.
 const updateSequenceValue = (numCreated) => {
-  Counters.findOneAndUpdate({ id: sequenceName },{ $inc: { totalListings:numCreated } },{new: true});
+  Counters.findOneAndUpdate({ id: 'location_id' },{ $inc: { totalListings: numCreated } },{new: true},
+    (err, res) => { if (err) return console.log(err); console.log(res);}
+  );
 };
 
 module.exports = {
