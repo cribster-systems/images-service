@@ -35,3 +35,4 @@ DockerFile
 
 # Seed file
 server/database/seed.csv
+newrelic.js
