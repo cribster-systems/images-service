@@ -1,14 +1,17 @@
 config:
-  target: 'http://127.0.0.1:8080'
-  http: 
+  target: 'http://127.0.0.1:3000'
+  http:
     pool: 10
   phases:
-    - duration: 40
-      arrivalRate: 500
+    - duration: 5
+      arrivalRate: 10
   defaults:
     headers:
       x-my-service-auth: '987401838271002188298567'
 scenarios:
-  - flow:
-    - get:
-        url: "/1"
+  - name: "images"
+    flow:
+    - loop:
+      - get:
+          url: "/{{ $loopCount }}"
+          count: 1

@@ -35,24 +35,23 @@ const get = function(locationId, cb) {
     });
 };
 
-const insert = (entity, cb) => {
-  console.log('Ready to insert: ' + entity);
-  Image.create(entity).exec()
-    .then((results) => {
-      cb(null, results);
-    })
-    .catch((err) => {
-      cb(err, null);
-    });
+const insert = (entity) => {
+  Image.create(entity, (err, res) => {
+    if(err) return console.log(err);
+    console.log('Entity successfully inserted');
+  });
 };
 
 // Returns next lext listing ID and updates counter
-const getNextSequenceValue = () => {
-  let sequenceDocument = Counters.findOneAndUpdate({ id: 'location_id' },{ $inc: { totalListings:1 } },{new: true},
-     (err, res) => {
-      if(err) return console.log(err);
-      return res.totalListings;
-     }
+const getNextSequenceValue = (cb) => {
+  Counters.findOneAndUpdate(
+    { id: 'location_id' },
+    { $inc: { totalListings:1 } },
+    {new: true},
+    (err, res) => {
+      if(err)  cb(err, null);
+      return cb(null, res.totalListings);
+    }
   );
 };
 

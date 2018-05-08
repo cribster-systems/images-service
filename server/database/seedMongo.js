@@ -37,5 +37,9 @@ async function seeder() {
   updateSequenceValue(count);
 }
 
-createCounter();
-seeder();
+// createCounter();
+// seeder();
+
+module.exports = {
+  randImageArray: randImageArray,
+}
