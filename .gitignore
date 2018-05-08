@@ -36,9 +36,12 @@ DockerFile
 # Seed file
 server/database/seed.csv
 
-#loadtesters
+# Loadtesters
 loadtest.js
 loadtest.yml
 
 # New Relic
 newrelic.js
+
+# Miscellaneous 
+dump.rdb

@@ -18,8 +18,8 @@ require('dotenv').config();
 app.use(cors());
 app.use(responseTime());
 
-// The following allows node to utilize more than a single thread
-// Very beneficial in my old laptop
+// Node cluster allows machine to utilize all cpu cores
+// mostly reduces load on single core, and increased performance
 if(cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
@@ -32,13 +32,8 @@ if(cluster.isMaster) {
     cluster.fork();
   });
 } else {
-  client.on('error', function (err) {
-    console.log(err);
-  });
-  
-  client.on('connect', function () {
-    console.log('Client is connected to redis server');
-  });
+  client.on('error', () => console.log(err));
+  client.on('connect', () => console.log('Client is connected to redis server'));
   
   process.env.NODE_ENV === 'production' 
     ? app.use('/:locationId', express.static(path.join(__dirname, '../public'))) 
@@ -46,26 +41,27 @@ if(cluster.isMaster) {
   
   app.get('/images/:location_id', (req, res) => {
     let locationId = req.params.location_id;
-    // client.get(locationId, (err, result) => {
-    //   if (result) {
-    //     res.writeHead(200, {'Content-Type': 'application/json'});
-    //     res.end(result);
-    //   } else {
-    //     db.get(locationId, (err, images) => {
+    client.get(locationId, (err, result) => {
+      if (result) {
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(result);
+      } else {
+        db.get(locationId, (err, images) => {
           if (err) {
             res.writeHead(404, {'Content-Type': 'text/plain'});
             res.end(err);
           } else {
-            let locationName = 'Location';
-            let result = {locationName: locationName, images: images};
-            //client.setex(locationId, 120, JSON.stringify(result));
+            let result = {locationName: 'location', images: images};
+            client.setex(locationId, 120, JSON.stringify(result));
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify(result));       
           }
         });
-      // };
-    // });
-  // });
+      };
+    });
+  });
+
+  //app.post()
 
   // Connections will remain open for 20seconds,this will enable faster transations between host and client
   // Is this realistic, though? 

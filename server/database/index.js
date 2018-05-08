@@ -35,6 +35,17 @@ const get = function(locationId, cb) {
     });
 };
 
+const insert = (entity, cb) => {
+  console.log('Ready to insert: ' + entity);
+  Image.create(entity).exec()
+    .then((results) => {
+      cb(null, results);
+    })
+    .catch((err) => {
+      cb(err, null);
+    });
+};
+
 // Returns next lext listing ID and updates counter
 const getNextSequenceValue = () => {
   let sequenceDocument = Counters.findOneAndUpdate({ id: 'location_id' },{ $inc: { totalListings:1 } },{new: true},
@@ -54,10 +65,11 @@ const updateSequenceValue = (numCreated) => {
 
 module.exports = {
   db: db,
-  mongoose: mongoose,
+  get: get,
   Image: Image,
+  insert: insert,
+  mongoose: mongoose,
   Counters: Counters,
-  getNextSequenceValue: getNextSequenceValue,
   updateSequenceValue: updateSequenceValue,
-  get: get
+  getNextSequenceValue: getNextSequenceValue,
 };
