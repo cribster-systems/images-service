@@ -22,18 +22,18 @@ app.use(responseTime());
 
 // Node cluster allows machine to utilize all cpu cores
 // mostly reduces load on single core, and increased performance
-// if(cluster.isMaster) {
-//   console.log(`Master ${process.pid} is running`);
+if(cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
 
-//   // Fork workers
-//   for (let i = 0; i < numCPUs; i +=1) {
-//     cluster.fork();
-//   }
-//   cluster.on('exit', (worker, code, signal) => {
-//     console.log(`worker ${worker.process.pid} died`);
-//     cluster.fork();
-//   });
-// } else {
+  // Fork workers
+  for (let i = 0; i < numCPUs; i +=1) {
+    cluster.fork();
+  }
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
+} else {
 
 client.on('error', () => console.log(err));
 client.on('connect', () => console.log('Client is connected to redis server'));
@@ -70,12 +70,12 @@ app.post('/insert/', (req, res) => {
     await getNextSequenceValue((err, res) => {
       if(err) return console.log(err);
       let newEntry = {
-        location_id: res,
+        location_id: res-1,
         caption: faker.lorem.sentence(),
         src: randImageArray()
       }
       insert(newEntry);
-    })
+    });
   }
   makeEntry();
 });
@@ -90,4 +90,4 @@ app.listen(port, () => {
   console.log('Listening on port ' + port);
 });
   
-//}
+}

@@ -1,0 +1,20 @@
+config:
+  target: 'http://127.0.0.1:3000'
+  phases:
+    - duration: 10
+      arrivalRate: 10
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+  processor: "./artilleryScript.js"
+scenarios:
+  - name: "Submit GET requests for random listings"
+    flow:
+    - function: "loadTestScript"
+    - loop:
+      - get:
+          url: "/{{ listing_id }}"
+          count: 10
+
+    # Print data for every req
+    - log: "Sent a request to /listing_id with {{ listing_id }}"
