@@ -1,7 +1,7 @@
 config:
   target: 'http://127.0.0.1:3000'
   phases:
-    - duration: 10
+    - duration: 120
       arrivalRate: 10
   defaults:
     headers:
@@ -14,7 +14,7 @@ scenarios:
     - loop:
       - get:
           url: "/{{ listing_id }}"
-          count: 10
+      count: 50
 
     # Print data for every req
     - log: "Sent a request to /listing_id with {{ listing_id }}"

@@ -7,7 +7,7 @@ const request      = require('request');
 const bodyParser   = require('body-parser');
 const responseTime = require('response-time');
 const { randImageArray } = require('./database/seedMongo.js');
-const { db, insert, getNextSequenceValue } = require('./database/index.js');
+const { db, get, insert, getNextSequenceValue } = require('./database/index.js');
 const port = process.env.PORT || 3000;
 const host = process.env.NODE_ENV === 'production' ? '172.17.0.2' : '127.0.0.1';
 const newRelic = require('newrelic');
@@ -35,7 +35,7 @@ if(cluster.isMaster) {
   });
 } else {
 
-client.on('error', () => console.log(err));
+client.on('error', (err) => console.log(err));
 client.on('connect', () => console.log('Client is connected to redis server'));
 
 process.env.NODE_ENV === 'production' 
@@ -49,7 +49,7 @@ app.get('/images/:location_id', (req, res) => {
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.end(result);
     } else {
-      db.get(locationId, (err, images) => {
+      get(locationId, (err, images) => {
         if (err) {
           res.writeHead(404, {'Content-Type': 'text/plain'});
           res.end(err);
