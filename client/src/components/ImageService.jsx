@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import _ from 'lodash';
 
 import Modal from './Modal.jsx';
 import LightBox from './LightBox.jsx';
@@ -57,19 +56,17 @@ class ImageService extends React.Component {
 
   fetchNewImages(locationId) {
     let url = '';
-    if (process.env.NODE_ENV === 'production') {
-      url = 'http://ec2-34-203-243-252.compute-1.amazonaws.com';
-    } else if (process.env.NODE_ENV === 'development') {
-      url = 'http://127.0.0.1:3000';
-    } else {
-      url = 'http://192.168.99.100:3000'; // Because Docker for windows is stupid and won't expose port to localhost :(
+    if (process.env.NODE_ENV === 'production') { 
+      url = 'http://ec2-54-183-17-231.us-west-1.compute.amazonaws.com'; 
+    } else { 
+      url = 'http://127.0.0.1:3000'; 
     }
-
+    
+    console.log(`Getting: ${url}/images/${locationId}`);
     return axios.get(`${url}/images/${locationId}`)
       .then((result) => {
         let { locationName, images } = result.data;
         let allImagesLoaded = images.length === 0; //If no images are returned, then there is no point in waiting for images to load
-        console.log(result);
         this.setState({
           locationName: 'placeholder',  // formerly locationName
           images: images[0].src,        // formerly images

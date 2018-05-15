@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
-const _ = require('lodash');
 const { MLAB_USERNAME, MLAB_PASSWORD } = process.env;
 
 // mongoose.connect(`mongodb://${MLAB_USERNAME}:${MLAB_PASSWORD}@ds241039.mlab.com:41039/fantasybnb`);
-mongoose.connect('mongodb://localhost/images');
+// WHEN DOCKERIZING
+//mongoose.connect('mongodb://172.17.0.2:27017/images');
+// WHEN COMPOSING
+mongoose.connect('mongodb://database/images');
+//////////////////
+// mongoose.connect('mongodb://localhost/images');
 const db = mongoose.connection;
 
 let counterSchema = mongoose.Schema({
@@ -22,7 +26,7 @@ let imageSchema = mongoose.Schema({
   src: Array
 });
 
-let Image   = mongoose.model('Image', imageSchema);
+let Image = mongoose.model('Image', imageSchema);
 let Counters = mongoose.model('Counter', counterSchema);
 
 const get = function(locationId, cb) {

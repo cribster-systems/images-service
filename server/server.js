@@ -1,22 +1,38 @@
-const cors         = require('cors');
-const path         = require('path');
-const redis        = require('redis');
-const faker        = require('faker');
-const express      = require('express');
-const request      = require('request');
-const bodyParser   = require('body-parser');
+require('dotenv').config();
+const cors = require('cors');
+const path = require('path');
+const redis = require('redis');
+const faker = require('faker');
+const express = require('express');
+const request = require('request');
+const bodyParser = require('body-parser');
 const responseTime = require('response-time');
-const { randImageArray } = require('./database/seedMongo.js');
 const { db, get, insert, getNextSequenceValue } = require('./database/index.js');
 const port = process.env.PORT || 3000;
-const host = process.env.NODE_ENV === 'production' ? '172.17.0.2' : '127.0.0.1';
+const host = process.env.NODE_ENV === 'production' ? process.env.REDIS : '127.0.0.1';
 const newRelic = require('newrelic');
+// var client = redis.createClient({
+//   host: 'redis'
+// });
+// const client = redis.createClient('6379', host);
+console.log('Redis host is...' + host);
 const client = redis.createClient('6379', host);
 const app = express();
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-require('dotenv').config();
+// Server side rendering
+// import React from "react";
+// import { renderToString } from "react-dom/server";
+// import Layout from "./components/Layout";
 
+// app.get( "/*", ( req, res ) => {
+//   const jsx = ( <Layout /> );
+//   const reactDom = renderToString( jsx );
+
+//   res.writeHead( 200, { "Content-Type": "text/html" } );
+//   res.end( htmlTemplate( reactDom ) );
+// });
+//
 app.use(cors());
 app.use(responseTime());
 
@@ -36,7 +52,7 @@ if(cluster.isMaster) {
 } else {
 
 client.on('error', (err) => console.log(err));
-client.on('connect', () => console.log('Client is connected to redis server'));
+client.on('connect', () => console.log('Client is connected to redis server WOO!!'));
 
 process.env.NODE_ENV === 'production' 
   ? app.use('/:locationId', express.static(path.join(__dirname, '../public'))) 
@@ -65,6 +81,16 @@ app.get('/images/:location_id', (req, res) => {
 });
 
 const imgUrl = 'https://s3-us-west-1.amazonaws.com/images-service-images/pic'; //pic<1-270>.jpg';
+// Generates list of image urls for each listing
+const randNumInRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const randImageArray = () => {
+  let arr = [];
+  for (let j = 0; j < randNumInRange(2, 5); j += 1) {
+    arr.push(imgUrl + randNumInRange(1, 270) + '.jpg');
+  }
+  return arr;
+}
+
 app.post('/insert/', (req, res) => {
   async function makeEntry() {
     await getNextSequenceValue((err, res) => {

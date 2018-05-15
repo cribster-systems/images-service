@@ -3,6 +3,3 @@ node_modules
 
 # Test files
 test/
-
-# Environment variables
-.env

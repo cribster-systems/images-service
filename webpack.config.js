@@ -1,4 +1,5 @@
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 require('dotenv').config();
 
 const SRC_DIR = path.join(__dirname, '/client/src');
@@ -14,6 +15,9 @@ module.exports = {
     filename: filename,
     path: DIST_DIR
   },
+  // plugins: [
+  //   new BundleAnalyzerPlugin()
+  // ],
   module: {
     rules: [
       {
@@ -21,7 +25,7 @@ module.exports = {
         include : SRC_DIR,
         loader : 'babel-loader',      
         query: {
-          presets: ['react', 'env']
+          presets: ['react', 'env'],
         }
       },
       {

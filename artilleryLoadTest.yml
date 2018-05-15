@@ -1,7 +1,7 @@
 config:
-  target: 'http://127.0.0.1:3000'
+  target: 'http://ec2-54-183-17-231.us-west-1.compute.amazonaws.com'
   phases:
-    - duration: 120
+    - duration: 20
       arrivalRate: 10
   defaults:
     headers:
@@ -14,7 +14,7 @@ scenarios:
     - loop:
       - get:
           url: "/{{ listing_id }}"
-      count: 50
+      count: 5
 
     # Print data for every req
-    - log: "Sent a request to /listing_id with {{ listing_id }}"
+    # - log: "Sent a request to /listing_id with {{ listing_id }}"

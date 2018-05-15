@@ -10,11 +10,12 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "grunt",
-    "dev:client": "webpack -d --watch",
+    "dev:client": "webpack -p --watch",
     "dev:server": "nodemon server/server.js",
     "debug": "nodemon --inspect server/server.js",
     "test": "jest -e --forceExit --verbose --updateSnapshot --coverage",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "docker": "node server/database/seedMongo.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -25,13 +26,12 @@
     "faker": "^4.1.0",
     "grunt-webpack": "^3.1.1",
     "loadtest": "^3.0.3",
-    "lodash": "^4.17.5",
     "mongoose": "^5.0.14",
     "newrelic": "^4.1.0",
     "path": "^0.12.7",
     "pg": "^7.4.1",
     "react": "^16.3.1",
-    "react-dom": "^16.3.1",
+    "react-dom": "^16.3.2",
     "react-slick": "^0.23.1",
     "react-transition-group": "^2.3.1",
     "redis": "^2.8.0",
@@ -61,6 +61,7 @@
     "style-loader": "^0.20.3",
     "url-loader": "^1.0.1",
     "webpack": "^4.5.0",
+    "webpack-bundle-analyzer": "^2.11.3",
     "webpack-cli": "^2.0.14"
   },
   "jest": {

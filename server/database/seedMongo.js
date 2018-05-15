@@ -30,16 +30,19 @@ async function seeder() {
       count += 1;
     }
     await Image.insertMany(batch);
-    if(count % 100000 === 0) {
+    if(count % 10000 === 0) {
       console.log(count);
     }
+    if(count === 10000000) {
+      console.log('10 mil entries seeded');
+    }
   }
-  updateSequenceValue(count);
+  //updateSequenceValue(count);
 }
-
+// try { setTimeout(createCounter, 5000); } 
+// catch(error) { console.log('Failed at createCounter ' + error); }
+seeder();
+// try { setTimeout(seeder, 10000); } 
+// catch(error) { console.log('Failed at seeder ' + error); }
 // createCounter();
 // seeder();
-
-module.exports = {
-  randImageArray: randImageArray,
-}
