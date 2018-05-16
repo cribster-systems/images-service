@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 const { MLAB_USERNAME, MLAB_PASSWORD } = process.env;
 
 // mongoose.connect(`mongodb://${MLAB_USERNAME}:${MLAB_PASSWORD}@ds241039.mlab.com:41039/fantasybnb`);
 // WHEN DOCKERIZING
 //mongoose.connect('mongodb://172.17.0.2:27017/images');
 // WHEN COMPOSING
-mongoose.connect('mongodb://database/images');
+//mongoose.connect('mongodb://ec2-52-53-236-220.us-west-1.compute.amazonaws.com/images');
 //////////////////
-// mongoose.connect('mongodb://localhost/images');
+//mongoose.connect('mongodb://localhost/images');
+
+const host = process.env.NODE_ENV = 'production'
+  ? 'mongodb://ec2-52-53-236-220.us-west-1.compute.amazonaws.com/images'
+  : 'mongodb://localhost/images';
+  
+mongoose.connect(host);
+
 const db = mongoose.connection;
 
 let counterSchema = mongoose.Schema({

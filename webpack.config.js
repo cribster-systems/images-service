@@ -7,14 +7,15 @@ const DIST_DIR = process.env.NODE_ENV === 'production'
   ? path.join(__dirname, '/public') 
   : path.join(__dirname,'/client/dist');
 
+const suffix = process.env.NODE_ENV === 'production' 
+  ? '.min' 
+  : ''
+
 const filename = process.env.NODE_ENV === 'production' ? 'bundle.min.js': 'bundle.js';
 
-module.exports = {
-  entry: `${SRC_DIR}/index.js`,
-  output: {
-    filename: filename,
-    path: DIST_DIR
-  },
+const common = {
+  context: `${SRC_DIR}`,
+  
   // plugins: [
   //   new BundleAnalyzerPlugin()
   // ],
@@ -70,3 +71,26 @@ module.exports = {
     ]
   }
 };
+
+const client = {
+  entry: './client.js',
+  output: {
+    path: DIST_DIR,
+    filename: `client-bundle${suffix}.js`
+  }
+};
+
+const server = {
+  entry: './server.js',
+  target: 'node',
+  output: {
+    path: DIST_DIR,
+    filename: `server-bundle${suffix}.js`,
+    libraryTarget: 'commonjs-module'
+  }
+}
+
+module.exports = [
+  Object.assign({}, common, client),
+  Object.assign({}, common, server)
+];

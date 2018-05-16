@@ -57,7 +57,7 @@ class ImageService extends React.Component {
   fetchNewImages(locationId) {
     let url = '';
     if (process.env.NODE_ENV === 'production') { 
-      url = 'http://ec2-54-183-17-231.us-west-1.compute.amazonaws.com'; 
+      url = 'http://ec2-54-183-162-92.us-west-1.compute.amazonaws.com'; 
     } else { 
       url = 'http://127.0.0.1:3000'; 
     }

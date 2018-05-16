@@ -9,12 +9,9 @@ const bodyParser = require('body-parser');
 const responseTime = require('response-time');
 const { db, get, insert, getNextSequenceValue } = require('./database/index.js');
 const port = process.env.PORT || 3000;
-const host = process.env.NODE_ENV === 'production' ? process.env.REDIS : '127.0.0.1';
+const host = process.env.NODE_ENV === 'production' ? 'ec2-18-144-5-21.us-west-1.compute.amazonaws.com' : '127.0.0.1';
 const newRelic = require('newrelic');
-// var client = redis.createClient({
-//   host: 'redis'
-// });
-// const client = redis.createClient('6379', host);
+
 console.log('Redis host is...' + host);
 const client = redis.createClient('6379', host);
 const app = express();
