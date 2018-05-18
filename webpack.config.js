@@ -36,6 +36,9 @@ const common = {
             loader: 'style-loader',
           },
           {
+          loader: 'isomorphic-style-loader',
+          },
+          {
 						loader: 'css-loader',
 						options: {
 							sourceMap: true,
@@ -87,7 +90,23 @@ const server = {
     path: DIST_DIR,
     filename: `server-bundle${suffix}.js`,
     libraryTarget: 'commonjs-module'
-  }
+  },
+  /// ///
+  // test: /\.css$/,
+  // use: [
+  //   {
+  //     loader: 'isomorphic-style-loader',
+  //   },
+  //   {
+  //     loader: 'css-loader',
+  //     options: {
+  //       modules: true,
+  //       // importLoaders: 1,
+  //       localIdentName: '[name]__[local]___[hash:base64:5]',
+  //       sourceMap: true,
+  //     },
+  //   },
+  // ],
 }
 
 module.exports = [

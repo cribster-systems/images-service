@@ -3,6 +3,8 @@ import Slider from 'react-slick';
 
 import styles from '../styles/carousel-style.css';
 
+const CSS = styles._getCss();
+
 class Carousel extends React.Component {
   componentDidUpdate() {
     this.goToIndex(this.props.curImageIndex, this.props.images);
@@ -35,23 +37,27 @@ class Carousel extends React.Component {
       slideOffSet = 54.5 * (7 - images.length);
     }
     return (
-      <div id="slider-container" className={styles['slider-container']} 
-        style={{transform: `translate(${slideOffSet}px)`}}>
-        <Slider ref={slider => (this.slider = slider)} {...settings}>
-          {images.map((image, index) => 
-          <div key={index} className={styles['slide']}>
-            <div className={styles['thumbnail-frame']}>
-              <img 
-                id={`Image ${index}`}
-                className={styles['thumbnail']} 
-                src={image} 
-                style={{filter: index === curImageIndex ? 'brightness(100%)' : null}}
-                onClick={() => changeIndex(index)}
-              />
+      <div>
+        <style>{CSS}</style>
+      
+        <div id="slider-container" className={styles['slider-container']} 
+          style={{transform: `translate(${slideOffSet}px)`}}>
+          <Slider ref={slider => (this.slider = slider)} {...settings}>
+            {images.map((image, index) => 
+            <div key={index} className={styles['slide']}>
+              <div className={styles['thumbnail-frame']}>
+                <img 
+                  id={`Image ${index}`}
+                  className={styles['thumbnail']} 
+                  src={image} 
+                  style={{filter: index === curImageIndex ? 'brightness(100%)' : null}}
+                  onClick={() => changeIndex(index)}
+                />
+              </div>
             </div>
-          </div>
-          )}
-        </Slider>
+            )}
+          </Slider>
+        </div>
       </div>
     );
   }

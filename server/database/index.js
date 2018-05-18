@@ -11,7 +11,7 @@ const { MLAB_USERNAME, MLAB_PASSWORD } = process.env;
 //mongoose.connect('mongodb://localhost/images');
 
 const host = process.env.NODE_ENV = 'production'
-  ? 'mongodb://ec2-52-53-236-220.us-west-1.compute.amazonaws.com/images'
+  ? 'mongodb://ec2-52-53-177-93.us-west-1.compute.amazonaws.com/images'
   : 'mongodb://localhost/images';
   
 mongoose.connect(host);

@@ -10,6 +10,8 @@ import heart from '../icons/heart.jsx';
 import share from '../icons/share.jsx';
 import spinner from '../icons/spinner.jsx';
 
+const CSS = styles._getCss();
+
 class ImageService extends React.Component {
   constructor(props) {
     super(props);
@@ -57,7 +59,7 @@ class ImageService extends React.Component {
   fetchNewImages(locationId) {
     let url = '';
     if (process.env.NODE_ENV === 'production') { 
-      url = 'http://ec2-54-183-162-92.us-west-1.compute.amazonaws.com'; 
+      url = 'http://ec2-54-193-20-82.us-west-1.compute.amazonaws.com'; 
     } else { 
       url = 'http://127.0.0.1:3000'; 
     }
@@ -149,92 +151,96 @@ class ImageService extends React.Component {
     let imgUrl = images.length > 0 ? images[0] : null;
     
     return (
-      <div className={styles['main-image']}>
-        <div>
-          {!allImagesLoaded 
-          ? <div className={styles['background']} style={{textAlign: 'center'}}>
-              <div style={{
-                position: 'relative',
-                display: 'inline-block',
-                transform: 'translateY(250%)'
-              }}>
-                {spinner}
+      <div>
+      <style>{CSS}</style>
+      
+        <div className={styles['main-image']}>
+          <div>
+            {!allImagesLoaded 
+            ? <div className={styles['background']} style={{textAlign: 'center'}}>
+                <div style={{
+                  position: 'relative',
+                  display: 'inline-block',
+                  transform: 'translateY(250%)'
+                }}>
+                  {spinner}
+                </div>
               </div>
-            </div>
-          : images.length === 0 
-              ? <div id="no-images" className={styles['background']}>
-                  <h1>The owner has not posted any pictures of this place yet!</h1>
-                  <div className={styles['buttons-top']}>
-                    <span style={{marginRight: '15px'}}>
-                      <button ref={shareButton => (this.share = shareButton)} 
-                        id="share-button" 
-                        className={styles['button']} 
-                        onClick={(e) => this.openModal(e)}
-                      >
-                        <div className={styles['icon-span']}>{share}</div>
-                        Share
-                      </button>
-                    </span>
-                    <span>
-                      <button ref={saveButton => (this.save = saveButton)} 
-                        id="save-button" 
-                        className={styles['button']} 
-                        onClick={(e) => this.openModal(e)}
-                      >
-                        <div className={styles['icon-span']}>{heart}</div>
-                        Save
-                      </button>
-                    </span>
+            : images.length === 0 
+                ? <div id="no-images" className={styles['background']}>
+                    <h1>The owner has not posted any pictures of this place yet!</h1>
+                    <div className={styles['buttons-top']}>
+                      <span style={{marginRight: '15px'}}>
+                        <button ref={shareButton => (this.share = shareButton)} 
+                          id="share-button" 
+                          className={styles['button']} 
+                          onClick={(e) => this.openModal(e)}
+                        >
+                          <div className={styles['icon-span']}>{share}</div>
+                          Share
+                        </button>
+                      </span>
+                      <span>
+                        <button ref={saveButton => (this.save = saveButton)} 
+                          id="save-button" 
+                          className={styles['button']} 
+                          onClick={(e) => this.openModal(e)}
+                        >
+                          <div className={styles['icon-span']}>{heart}</div>
+                          Save
+                        </button>
+                      </span>
+                    </div>
                   </div>
-                </div>
-              : <div id="background" ref={background => (this.background = background)} 
-                  className={styles['background']} 
-                  style={{backgroundImage: `url("${imgUrl}")`, cursor: 'pointer'}} 
-                  onClick={(e) => this.openModal(e)}>
-                  <div className={styles['buttons-top']}>
-                    <span style={{marginRight: '15px'}}>
-                      <button ref={shareButton => (this.share = shareButton)} 
-                        id="share-button" 
+                : <div id="background" ref={background => (this.background = background)} 
+                    className={styles['background']} 
+                    style={{backgroundImage: `url("${imgUrl}")`, cursor: 'pointer'}} 
+                    onClick={(e) => this.openModal(e)}>
+                    <div className={styles['buttons-top']}>
+                      <span style={{marginRight: '15px'}}>
+                        <button ref={shareButton => (this.share = shareButton)} 
+                          id="share-button" 
+                          className={styles['button']} 
+                          onClick={(e) => this.openModal(e)}
+                        >
+                          <div className={styles['icon-span']}>{share}</div>
+                          Share
+                        </button>
+                      </span>
+                      <span>
+                        <button ref={saveButton => (this.save = saveButton)} 
+                          id="save-button" 
+                          className={styles['button']} 
+                          onClick={(e) => this.openModal(e)}
+                        >
+                          <div className={styles['icon-span']}>{heart}</div>
+                          Save
+                        </button>
+                      </span>
+                    </div>
+                    <div className={styles['view-photos']}>
+                      <button ref={photosButton => (this.photosButton = photosButton)} 
+                        id="photos-button" 
                         className={styles['button']} 
                         onClick={(e) => this.openModal(e)}
                       >
-                        <div className={styles['icon-span']}>{share}</div>
-                        Share
+                        View Photos
                       </button>
-                    </span>
-                    <span>
-                      <button ref={saveButton => (this.save = saveButton)} 
-                        id="save-button" 
-                        className={styles['button']} 
-                        onClick={(e) => this.openModal(e)}
-                      >
-                        <div className={styles['icon-span']}>{heart}</div>
-                        Save
-                      </button>
-                    </span>
+                    </div>
                   </div>
-                  <div className={styles['view-photos']}>
-                    <button ref={photosButton => (this.photosButton = photosButton)} 
-                      id="photos-button" 
-                      className={styles['button']} 
-                      onClick={(e) => this.openModal(e)}
-                    >
-                      View Photos
-                    </button>
-                  </div>
-                </div>
-          }
-        </div>
-        <Modal isOpen={openModal} 
-          color={modalChild === 'Share' ? 
-            'rgba(255,255,255,0.8)' 
-            : 'rgba(0,0,0,0.8)'}>
-          {this.determineModalContent()}
-        </Modal>
-        <div style={{display: 'none'}}>
-          {images.map((image, key) => 
-            <img key={`image-${key}`} src={image} onLoad={this.onImageLoad}/> // I want to show the images component to the screen only after all images loaded
-          )}
+            }
+          </div>
+          <Modal isOpen={openModal} 
+            color={modalChild === 'Share' ? 
+              'rgba(255,255,255,0.8)' 
+              : 'rgba(0,0,0,0.8)'}>
+            {this.determineModalContent()}
+          </Modal>
+          <div style={{display: 'none'}}>
+            {images.map((image, key) => 
+              <img key={`image-${key}`} src={image} onLoad={this.onImageLoad}/> // I want to show the images component to the screen only after all images loaded
+            )}
+          </div>
         </div>
       </div>
     )

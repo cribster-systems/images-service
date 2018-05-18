@@ -54,6 +54,7 @@
     "grunt": "^1.0.2",
     "grunt-aws": "^0.6.2",
     "grunt-contrib-uglify": "^3.3.0",
+    "isomorphic-style-loader": "^4.0.0",
     "jest": "^22.4.3",
     "mocha": "^5.0.5",
     "react-test-renderer": "^16.3.1",

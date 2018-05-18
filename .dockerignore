@@ -3,3 +3,9 @@ node_modules
 
 # Test files
 test/
+
+# Webpack bundles
+/public/bundle.js
+/public/bundle.min.js
+/public/client-bundle.min.js
+/public/server-bundle.min.js

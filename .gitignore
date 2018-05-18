@@ -45,3 +45,7 @@ newrelic.js
 
 # Miscellaneous 
 dump.rdb
+awscli-bundle.zip
+awscli-bundle/
+client/dist/client-bundle.js
+client/dist/server-bundle.js
