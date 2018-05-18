@@ -3,7 +3,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import styles from '../styles/modal-style.css';
 
-const CSS = styles._getCss();
+// const CSS = styles._getCss();
 
 const Modal = ({isOpen, children, color}) => {
   
@@ -14,9 +14,6 @@ const Modal = ({isOpen, children, color}) => {
     exitActive: styles['fade-exit-active']
   }
   return (
-    <div>
-    <style>{CSS}</style>
-    
       <div>
         <TransitionGroup>
           <CSSTransition classNames={transitions} timeout={200} key={isOpen}>
@@ -31,7 +28,6 @@ const Modal = ({isOpen, children, color}) => {
           </CSSTransition>
         </TransitionGroup>
       </div>
-    </div>
   );    
 };
 

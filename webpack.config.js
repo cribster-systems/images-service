@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const SRC_DIR = path.join(__dirname, '/client/src');
 const DIST_DIR = process.env.NODE_ENV === 'production' 
-  ? path.join(__dirname, '/public') 
+  ? path.join(__dirname, '/client/dist') 
   : path.join(__dirname,'/client/dist');
 
 const suffix = process.env.NODE_ENV === 'production' 
@@ -91,7 +91,6 @@ const server = {
     filename: `server-bundle${suffix}.js`,
     libraryTarget: 'commonjs-module'
   },
-  /// ///
   // test: /\.css$/,
   // use: [
   //   {

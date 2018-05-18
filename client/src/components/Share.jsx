@@ -8,7 +8,7 @@ import messengerIcon from '../icons/messenger-icon.jsx';
 import copyIcon from '../icons/copy-icon.jsx';
 import embedIcon from '../icons/embed-icon.jsx';
 
-const CSS = styles._getCss();
+// const CSS = styles._getCss();
 
 class Share extends React.Component {
   closeModal(e) {
@@ -20,9 +20,6 @@ class Share extends React.Component {
 
   render() {
     return (
-      <div>
-        <style>{CSS}</style>
-      
         <div id="share-container" 
           ref={container => (this.container = container)} 
           className={styles['share-container']} 
@@ -75,7 +72,6 @@ class Share extends React.Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }

@@ -8,7 +8,7 @@ import arrowLeft from '../icons/arrow-left.jsx';
 import popupArrow from '../icons/popup-arrow.png';
 import close from '../icons/close.jsx';
 
-const CSS = styles._getCss();
+// const CSS = styles._getCss();
 
 class LightBox extends React.Component {
   constructor(props) {
@@ -30,10 +30,6 @@ class LightBox extends React.Component {
       let { images, curImageIndex, closeModal, changeIndex } = this.props;
       let curImage = images[curImageIndex];
       return (
-
-        <div>
-        <style>{CSS}</style>
-        
         <div id="lightbox-container" className={styles['lightbox-container']}>
           <button id="close-lightbox" className={styles['close-lightbox']} onClick={closeModal}>
             {close}
@@ -81,7 +77,6 @@ class LightBox extends React.Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }

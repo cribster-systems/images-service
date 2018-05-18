@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 
 import styles from '../styles/carousel-style.css';
 
-const CSS = styles._getCss();
+// const CSS = styles._getCss();
 
 class Carousel extends React.Component {
   componentDidUpdate() {
@@ -37,8 +37,6 @@ class Carousel extends React.Component {
       slideOffSet = 54.5 * (7 - images.length);
     }
     return (
-      <div>
-        <style>{CSS}</style>
       
         <div id="slider-container" className={styles['slider-container']} 
           style={{transform: `translate(${slideOffSet}px)`}}>
@@ -58,7 +56,6 @@ class Carousel extends React.Component {
             )}
           </Slider>
         </div>
-      </div>
     );
   }
 }

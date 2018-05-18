@@ -1,5 +1,5 @@
 config:
-  target: 'http://ec2-54-183-17-231.us-west-1.compute.amazonaws.com'
+  target: 'http://ec2-54-193-20-82.us-west-1.compute.amazonaws.com'
   phases:
     - duration: 20
       arrivalRate: 10
