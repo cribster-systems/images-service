@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const responseTime = require('response-time');
 const { db, get, insert, getNextSequenceValue } = require('./database/index.js');
 const port = process.env.PORT || 3000;
-const host = process.env.NODE_ENV === 'production' ? 'ec2-54-153-66-82.us-west-1.compute.amazonaws.com' : 'ec2-54-153-66-82.us-west-1.compute.amazonaws.com';
+const host = process.env.NODE_ENV === 'production' ? 'ec2-54-153-66-82.us-west-1.compute.amazonaws.com' : 'http://127.0.0.1:3000';
 const newRelic = require('newrelic');
 
 console.log('Redis host is...' + host);
@@ -17,19 +17,7 @@ const client = redis.createClient('6379', host);
 const app = express();
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-// Server side rendering
-// import React from "react";
-// import { renderToString } from "react-dom/server";
-// import Layout from "./components/Layout";
 
-// app.get( "/*", ( req, res ) => {
-//   const jsx = ( <Layout /> );
-//   const reactDom = renderToString( jsx );
-
-//   res.writeHead( 200, { "Content-Type": "text/html" } );
-//   res.end( htmlTemplate( reactDom ) );
-// });
-//
 app.use(cors());
 app.use(responseTime());
 
@@ -48,69 +36,67 @@ if(cluster.isMaster) {
   });
 } else {
 
-client.on('error', (err) => console.log(err));
-client.on('connect', () => console.log('Client is connected to redis server WOO!!'));
+  client.on('error', (err) => console.log(err));
+  client.on('connect', () => console.log('Client is connected to redis server WOO!!'));
 
-process.env.NODE_ENV === 'production' 
-  ? app.use('/:locationId', express.static(path.join(__dirname, '../public'))) 
-  : app.use('/:locationId', express.static(path.join(__dirname, '../client/dist')));
+  process.env.NODE_ENV === 'production' 
+    ? app.use('/:locationId', express.static(path.join(__dirname, '../public'))) 
+    : app.use('/:locationId', express.static(path.join(__dirname, '../client/dist')));
 
-app.get('/images/:location_id', (req, res) => {
-  let locationId = req.params.location_id;
-  client.get(locationId, (err, result) => {
-    if (result) {
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(result);
-    } else {
-      get(locationId, (err, images) => {
-        if (err) {
-          res.writeHead(404, {'Content-Type': 'text/plain'});
-          res.end(err);
-        } else {
-          let result = {locationName: 'location', images: images};
-          client.setex(locationId, 120, JSON.stringify(result));
-          res.writeHead(200, {'Content-Type': 'application/json'});
-          res.end(JSON.stringify(result));       
-        }
-      });
-    };
-  });
-});
-
-const imgUrl = 'https://s3-us-west-1.amazonaws.com/images-service-images/pic'; //pic<1-270>.jpg';
-// Generates list of image urls for each listing
-const randNumInRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-const randImageArray = () => {
-  let arr = [];
-  for (let j = 0; j < randNumInRange(2, 5); j += 1) {
-    arr.push(imgUrl + randNumInRange(1, 270) + '.jpg');
-  }
-  return arr;
-}
-
-app.post('/insert/', (req, res) => {
-  async function makeEntry() {
-    await getNextSequenceValue((err, res) => {
-      if(err) return console.log(err);
-      let newEntry = {
-        location_id: res-1,
-        caption: faker.lorem.sentence(),
-        src: randImageArray()
-      }
-      insert(newEntry);
+  app.get('/images/:location_id', (req, res) => {
+    let locationId = req.params.location_id;
+    client.get(locationId, (err, result) => {
+      if (result) {
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(result);
+      } else {
+        get(locationId, (err, images) => {
+          if (err) {
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end(err);
+          } else {
+            let result = {locationName: 'location', images: images};
+            client.setex(locationId, 120, JSON.stringify(result));
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));       
+          }
+        });
+      };
     });
+  });
+
+  const imgUrl = 'https://s3-us-west-1.amazonaws.com/images-service-images/pic'; //pic<1-270>.jpg';
+  // Generates list of image urls for each listing
+  const randNumInRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+  const randImageArray = () => {
+    let arr = [];
+    for (let j = 0; j < randNumInRange(2, 5); j += 1) {
+      arr.push(imgUrl + randNumInRange(1, 270) + '.jpg');
+    }
+    return arr;
   }
-  makeEntry();
-});
 
-// Connections will remain open for 20seconds,this will enable faster transations between host and client
-// Is this realistic, though? 
-// app.on('connection', (socket) => {
-//   socket.setTimeout(20 * 1000);
-// });
+  app.post('/insert/', (req, res) => {
+    async function makeEntry() {
+      await getNextSequenceValue((err, res) => {
+        if(err) return console.log(err);
+        let newEntry = {
+          location_id: res-1,
+          caption: faker.lorem.sentence(),
+          src: randImageArray()
+        }
+        insert(newEntry);
+      });
+    }
+    makeEntry();
+  });
 
-app.listen(port, () => {
-  console.log('Listening on port ' + port);
-});
+  // app.on('connection', (socket) => {
+  //   socket.setTimeout(20 * 1000);
+  // });
+
+  app.listen(port, () => {
+    console.log('Listening on port ' + port);
+  });
   
 }

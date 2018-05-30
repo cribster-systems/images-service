@@ -39,10 +39,5 @@ async function seeder() {
   }
   //updateSequenceValue(count);
 }
-// try { setTimeout(createCounter, 5000); } 
-// catch(error) { console.log('Failed at createCounter ' + error); }
+
 seeder();
-// try { setTimeout(seeder, 10000); } 
-// catch(error) { console.log('Failed at seeder ' + error); }
-// createCounter();
-// seeder();

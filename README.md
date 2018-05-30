@@ -1,39 +1,18 @@
-# Project Name
+# Starkiller Systems: Images service
 
-> Project description
+> Images service client and back end. Designed in conjuction with other services in related repo. Designed for efficiency and posterity!
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-
-## Table of Contents
-
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+  - https://github.com/starkillersystems
 
 ## Usage
 
-> Some usage instructions
+> Mongo database, Redis caching layer, and Express server developed to support support this service indepedentely.
 
 ## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
-
-- Node 6.13.0
-- etc
-
-## Development
-
-### Installing Dependencies
-
-From within the root directory:
-
-```sh
-npm install -g webpack
-npm install
-```
-
+- Node 9.11.1
+- Express
+- Mongodb
+- Redis

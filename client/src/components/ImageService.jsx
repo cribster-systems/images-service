@@ -10,8 +10,6 @@ import heart from '../icons/heart.jsx';
 import share from '../icons/share.jsx';
 import spinner from '../icons/spinner.jsx';
 
-// const CSS = styles._getCss();
-
 class ImageService extends React.Component {
   constructor(props) {
     super(props);
@@ -59,7 +57,7 @@ class ImageService extends React.Component {
   fetchNewImages(locationId) {
     let url = '';
     if (process.env.NODE_ENV === 'production') { 
-      url = 'http://ec2-54-193-20-82.us-west-1.compute.amazonaws.com'; 
+      url = 'http://balancer-243982668.us-west-1.elb.amazonaws.com'; 
     } else { 
       url = 'http://ec2-54-193-20-82.us-west-1.compute.amazonaws.com'; 
     }

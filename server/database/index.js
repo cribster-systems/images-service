@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
 require('dotenv').config();
+const mongoose = require('mongoose');
 const { MLAB_USERNAME, MLAB_PASSWORD } = process.env;
 
-// mongoose.connect(`mongodb://${MLAB_USERNAME}:${MLAB_PASSWORD}@ds241039.mlab.com:41039/fantasybnb`);
 // WHEN DOCKERIZING
 //mongoose.connect('mongodb://172.17.0.2:27017/images');
 // WHEN COMPOSING
@@ -12,7 +11,7 @@ const { MLAB_USERNAME, MLAB_PASSWORD } = process.env;
 
 const host = process.env.NODE_ENV = 'production'
   ? 'mongodb://ec2-52-53-177-93.us-west-1.compute.amazonaws.com/images'
-  : 'mongodb://ec2-52-53-177-93.us-west-1.compute.amazonaws.com/images';
+  : 'mongodb://localhost/images';
   
 mongoose.connect(host);
 console.log('Connecting to Mongo host @ ' + host);
