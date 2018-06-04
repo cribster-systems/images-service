@@ -45,12 +45,12 @@ scenarios:
 ```
 
 Peak RPS before any server optimization:
->Artillery: 1,264
->Siege: 1,213
+<p>Artillery: 1,264</p>
+<p>Siege: 1,213</p>
 
 Peak RPS after implementing Node cluster:
->Artillery: 1,910
->Siege: 2,100
+<p>Artillery: 1,910</p>
+<p>Siege: 2,100</p>
 
 Great! All looks well! I then created Docker images for my individual service, my MongoDB database, and my Redis server. I deployed to Amazon with an EC2 instance (T2 Micro). I then stress tested my service again.
 
@@ -74,18 +74,18 @@ scenarios:
 ```
 
 Initial testing in production with one EC2 instance:
->Peak RPS: 115
+<p>Peak RPS: 115</p>
 Why is production RPS so much slower than development RPS? 
 This was most likely related to my use of a T2 Micro instance in EC2, which only has 1GB of RAM and a single core, rendering my node cluster implementation ineffective. T2 Micro instance is not very well suited for production (At least for a backend of this size)
 
 So what else could I do? Turns out AWS has Elastic Load Balancers, to which I can register several EC2 instances. The load balancer would handle all incoming traffic and spread the requests amongst my registered EC2 instances.
 
 After implementing AWS Elastic Load Balancer with 10 EC2 instances, with one instance of Redis server and one instance of MongoDB server:
->Peak RPS: 329
+<p>Peak RPS: 329</p>
 As I expected, I saw almost a three-fold improvement, but was still a little short of my goal. I realized that a possible bottleneck could be that I only have one MongoDB instance so reads from the database could be slowing down traffic.
 
 After implementing Elastic Load Balancer for MongoDB instances and creating 5 instances:
->Peak RPS: 449
+<p>Peak RPS: 449</p>
 Indeed, spinning up new instances did increase RPS. The improvement was lower than I expected, however, but did allow me to reach my goal of at least 400 RPS. One big downside of this implementation that I realized was that it only works for reads from the database. If I had to implement database writes, how would I make the new info available to all the instances? For the scope of this project, I did not concern myself with database writes, but if I had to, I would have to use mongodb replication, with one master database to write to and secondary databases to copy the new changes into. 
 
 
