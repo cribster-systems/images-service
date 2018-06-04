@@ -57,7 +57,7 @@ Great! All looks well! I then created Docker images for my individual service, m
 Stress Testing (Production)
 Tool used: Artillery 
 
-Config: 
+Artillery: 
 ```
 config:
  target: "http://ec2-54-82-237-60.compute-1.amazonaws.com/reviews"
