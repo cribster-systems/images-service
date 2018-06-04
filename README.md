@@ -84,6 +84,7 @@ After implementing AWS Elastic Load Balancer with 10 EC2 instances, with one ins
 <p>Peak RPS: 329</p>
 As I expected, I saw almost a three-fold improvement, but was still a little short of my goal. I realized that a possible bottleneck could be that I only have one MongoDB instance so reads from the database could be slowing down traffic.
 
+
 <p>After implementing Elastic Load Balancer for MongoDB instances and creating 5 instances:</p>
 <p>Peak RPS: 449</p>
 Indeed, spinning up new instances did increase RPS. The improvement was lower than I expected, however, but did allow me to reach my goal of at least 400 RPS. One big downside of this implementation that I realized was that it only works for reads from the database. If I had to implement database writes, how would I make the new info available to all the instances? For the scope of this project, I did not concern myself with database writes, but if I had to, I would have to use mongodb replication, with one master database to write to and secondary databases to copy the new changes into. 
