@@ -82,8 +82,7 @@ So what else could I do? Turns out AWS has Elastic Load Balancers, to which I ca
 
 After implementing AWS Elastic Load Balancer with 10 EC2 instances, with one instance of Redis server and one instance of MongoDB server:
 <p>Peak RPS: 329</p>
-As I expected, I saw almost a three-fold improvement, but was still a little short of my goal. I realized that a possible bottleneck could be that I only have one MongoDB instance so reads from the database could be slowing down traffic.
-
+<p>As I expected, I saw almost a three-fold improvement, but was still a little short of my goal. I realized that a possible bottleneck could be that I only have one MongoDB instance so reads from the database could be slowing down traffic.</p>
 
 <p>After implementing Elastic Load Balancer for MongoDB instances and creating 5 instances:</p>
 <p>Peak RPS: 449</p>
